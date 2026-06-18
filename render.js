@@ -994,7 +994,7 @@ tick = function(){
 };
 
 offlineCatchup();
-render();
+render(); save(); // 起動直後のcharaSeen等をlocalStorageに確実に保存
 initTitleScreen();
 // 波形アニメーション(rAF)
 (function waveLoop(){
