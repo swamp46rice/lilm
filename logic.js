@@ -1688,6 +1688,20 @@ function exportObservation(){
       log('観測記録を書き出した(ポップアップがブロックされています。下のテキストをコピーしてください)');
     }
   }
+  // セーブデータをJSONファイルとしてダウンロード
+  try{
+    const now=new Date();
+    const pad=n=>String(n).padStart(2,'0');
+    const fname='lilm_save_'+now.getFullYear()+pad(now.getMonth()+1)+pad(now.getDate())+'_'+pad(now.getHours())+pad(now.getMinutes())+pad(now.getSeconds())+'.json';
+    const blob=new Blob([localStorage.getItem('ib_v7')],{type:'application/json'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url; a.download=fname; a.click();
+    URL.revokeObjectURL(url);
+    log('セーブデータをエクスポートした: '+fname);
+  }catch(e){
+    log('セーブデータのエクスポートに失敗した: '+e.message);
+  }
 }
 
 /* ===== UI: 背景画像・モーダル画面・オープニング演出 ===== */
@@ -1947,4 +1961,38 @@ function initTitleScreen(){
   }
   ts.addEventListener('click', startGame);
   document.addEventListener('keydown', startGame);
+
+  // インポートボタン: タイトル画面のクリックイベントに伝播させない
+  const importBtn=document.getElementById('titleImportBtn');
+  const importInput=document.getElementById('titleImportInput');
+  if(importBtn && importInput){
+    importBtn.addEventListener('click', e=>{
+      e.stopPropagation();
+      importInput.click();
+    });
+    importInput.addEventListener('change', e=>{
+      e.stopPropagation();
+      const file=e.target.files[0];
+      if(!file) return;
+      const reader=new FileReader();
+      reader.onload=ev=>{
+        try{
+          const data=JSON.parse(ev.target.result);
+          if(!data || typeof data!=='object' || !data.level){
+            alert('セーブデータのフォーマットが正しくありません。');
+            return;
+          }
+          if(!window.confirm('現在のセーブデータを上書きします。よろしいですか？')){
+            importInput.value='';
+            return;
+          }
+          localStorage.setItem('ib_v7', JSON.stringify(data));
+          location.reload();
+        }catch(err){
+          alert('ファイルの読み込みに失敗しました: '+err.message);
+        }
+      };
+      reader.readAsText(file);
+    });
+  }
 }
