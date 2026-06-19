@@ -1966,10 +1966,6 @@ function initTitleScreen(){
     ts.style.opacity='0';
     setTimeout(()=>{
       ts.style.display='none';
-      const ib=document.getElementById('titleImportBtn');
-      const ih=document.getElementById('titleImportHint');
-      if(ib) ib.style.display='none';
-      if(ih) ih.style.display='none';
       if(_isFirstLaunch) playOpening();
       else log('情報海へ接続した');
     }, 600);
@@ -1978,49 +1974,62 @@ function initTitleScreen(){
   }
   ts.addEventListener('click', startGame);
   document.addEventListener('keydown', startGame);
+}
 
-  // インポートボタン・ヒントをタイトル画面表示中のみ表示
-  const importBtn=document.getElementById('titleImportBtn');
-  const importInput=document.getElementById('titleImportInput');
-  const importHint=document.getElementById('titleImportHint');
-  if(importBtn){
-    importBtn.style.display='block';
-    importBtn.addEventListener('click', e=>{
-      e.stopPropagation();
-      if(importHint) importHint.style.display='block';
-      importInput.click();
-    });
+/* ===== セーブデータインポートボタン初期化 =====
+   #titleScreenのdisplay変化をMutationObserverで監視し、
+   タイトル画面表示中のみボタンを表示する。
+   initTitleScreen()と独立して動作し、何度でも正しく機能する。 */
+function initImportButton(){
+  const btn=document.getElementById('titleImportBtn');
+  const input=document.getElementById('titleImportInput');
+  const hint=document.getElementById('titleImportHint');
+  const ts=document.getElementById('titleScreen');
+  if(!btn || !input || !ts) return;
+
+  // titleScreenのdisplay変化を監視してボタン表示を連動
+  function syncBtnVisibility(){
+    const tsVisible = ts.style.display !== 'none' && ts.style.opacity !== '0';
+    btn.style.display = tsVisible ? 'block' : 'none';
+    if(!tsVisible && hint) hint.style.display='none';
   }
-  if(importInput){
-    importInput.addEventListener('change', e=>{
-      if(importHint) importHint.style.display='none';
-      const file=e.target.files[0];
-      if(!file) return;
-      const reader=new FileReader();
-      reader.onload=ev=>{
-        try{
-          const data=JSON.parse(ev.target.result);
-          if(!data || typeof data!=='object' || !data.level){
-            alert('セーブデータのフォーマットが正しくありません。');
-            importInput.value='';
-            return;
-          }
-          if(!window.confirm('現在のセーブデータを上書きします。よろしいですか？')){
-            importInput.value='';
-            return;
-          }
-          // sを直接差し替えてrenderする(reloadなし)
-          localStorage.setItem('ib_v9', JSON.stringify(data));
-          Object.keys(data).forEach(k=>{ s[k]=data[k]; });
-          importInput.value='';
-          render(); save();
-          alert('セーブデータを読み込みました。');
-        }catch(err){
-          alert('ファイルの読み込みに失敗しました: '+err.message);
+  const observer = new MutationObserver(syncBtnVisibility);
+  observer.observe(ts, {attributes:true, attributeFilter:['style']});
+  syncBtnVisibility(); // 初期状態を反映
+
+  // ボタンクリック: ヒント表示→ファイル選択(タイトル画面には伝播させない)
+  btn.addEventListener('click', e=>{
+    e.stopPropagation();
+    if(hint) hint.style.display='block';
+    input.click();
+  });
+
+  // ファイル選択後のインポート処理
+  input.addEventListener('change', e=>{
+    if(hint) hint.style.display='none';
+    const file=e.target.files[0];
+    if(!file){ return; }
+    const reader=new FileReader();
+    reader.onload=ev=>{
+      try{
+        const data=JSON.parse(ev.target.result);
+        if(!data || typeof data!=='object' || !data.level){
+          alert('セーブデータのフォーマットが正しくありません。');
+          input.value=''; return;
         }
-      };
-      reader.readAsText(file);
-    });
-  }
-
+        if(!window.confirm('現在のセーブデータを上書きします。よろしいですか？')){
+          input.value=''; return;
+        }
+        // localStorageに保存し、sを差し替えてrenderする
+        localStorage.setItem('ib_v9', JSON.stringify(data));
+        Object.assign(s, data);
+        input.value='';
+        render(); save();
+        alert('セーブデータを読み込みました。\nPRESS STARTでゲームを開始してください。');
+      }catch(err){
+        alert('ファイルの読み込みに失敗しました: '+err.message);
+      }
+    };
+    reader.readAsText(file);
+  });
 }
