@@ -307,9 +307,9 @@ button[disabled]:hover{background:transparent;}
 @keyframes titleBlink{0%,100%{opacity:1;}50%{opacity:0.12;}}
 #titleCopyright{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);width:260px;opacity:0.65;}
 #titleVersion{position:absolute;bottom:20px;right:24px;font-family:var(--font-mono);font-size:11px;color:#6ab8d8;opacity:0.75;letter-spacing:.08em;}
-#titleImportBtn{position:absolute;bottom:20px;left:24px;font-family:var(--font-mono);font-size:11px;color:#6ab8d8;opacity:0.75;letter-spacing:.08em;background:none;border:1px solid #2a4060;border-radius:4px;padding:4px 10px;cursor:pointer;}
+#titleImportBtn{position:absolute;bottom:20px;left:24px;font-family:var(--font-mono);font-size:11px;color:#6ab8d8;opacity:0.75;letter-spacing:.08em;background:none;border:1px solid #2a4060;border-radius:4px;padding:4px 10px;cursor:pointer;z-index:101;}
 #titleImportBtn:hover{opacity:1;border-color:#6ab8d8;}
-#titleImportHint{display:none;position:absolute;bottom:44px;left:24px;font-family:var(--font-mono);font-size:10px;color:#6ab8d8;opacity:0.85;letter-spacing:.05em;background:rgba(2,6,18,0.85);border:1px solid #2a4060;border-radius:4px;padding:4px 10px;white-space:nowrap;}
+#titleImportHint{position:absolute;bottom:44px;left:24px;font-family:var(--font-mono);font-size:10px;color:#6ab8d8;opacity:0.85;letter-spacing:.05em;background:rgba(2,6,18,0.85);border:1px solid #2a4060;border-radius:4px;padding:4px 10px;white-space:nowrap;z-index:101;}
 @keyframes goldPulse{
   0%,100%{color:#f0c040;text-shadow:0 0 6px #f0c04088;opacity:1;}
   50%{color:#ffd700;text-shadow:0 0 14px #ffd700cc;opacity:0.65;}

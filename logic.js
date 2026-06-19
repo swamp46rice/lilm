@@ -1966,6 +1966,10 @@ function initTitleScreen(){
     ts.style.opacity='0';
     setTimeout(()=>{
       ts.style.display='none';
+      const ib=document.getElementById('titleImportBtn');
+      const ih=document.getElementById('titleImportHint');
+      if(ib) ib.style.display='none';
+      if(ih) ih.style.display='none';
       if(_isFirstLaunch) playOpening();
       else log('情報海へ接続した');
     }, 600);
@@ -1975,18 +1979,20 @@ function initTitleScreen(){
   ts.addEventListener('click', startGame);
   document.addEventListener('keydown', startGame);
 
-  // インポートボタン: タイトル画面のクリックイベントに伝播させない
+  // インポートボタン・ヒントをタイトル画面表示中のみ表示
   const importBtn=document.getElementById('titleImportBtn');
   const importInput=document.getElementById('titleImportInput');
   const importHint=document.getElementById('titleImportHint');
-  if(importBtn && importInput){
+  if(importBtn){
+    importBtn.style.display='block';
     importBtn.addEventListener('click', e=>{
       e.stopPropagation();
       if(importHint) importHint.style.display='block';
       importInput.click();
     });
+  }
+  if(importInput){
     importInput.addEventListener('change', e=>{
-      e.stopPropagation();
       if(importHint) importHint.style.display='none';
       const file=e.target.files[0];
       if(!file) return;
@@ -1996,14 +2002,19 @@ function initTitleScreen(){
           const data=JSON.parse(ev.target.result);
           if(!data || typeof data!=='object' || !data.level){
             alert('セーブデータのフォーマットが正しくありません。');
+            importInput.value='';
             return;
           }
           if(!window.confirm('現在のセーブデータを上書きします。よろしいですか？')){
             importInput.value='';
             return;
           }
+          // sを直接差し替えてrenderする(reloadなし)
           localStorage.setItem('ib_v9', JSON.stringify(data));
-          location.reload();
+          Object.keys(data).forEach(k=>{ s[k]=data[k]; });
+          importInput.value='';
+          render(); save();
+          alert('セーブデータを読み込みました。');
         }catch(err){
           alert('ファイルの読み込みに失敗しました: '+err.message);
         }
@@ -2011,4 +2022,5 @@ function initTitleScreen(){
       reader.readAsText(file);
     });
   }
+
 }
