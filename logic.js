@@ -256,8 +256,21 @@ const BASELINE_SUPPRESS_K=1500;
 function baselineSuppressRatio(stat){ return stat/(stat+BASELINE_SUPPRESS_K); }
 
 /* ===== 状態 ===== */
-const _isFirstLaunch = !localStorage.getItem('ib_v7_opening_done');
-let s = JSON.parse(localStorage.getItem('ib_v7')||'null') || {
+const _isFirstLaunch = !localStorage.getItem('ib_v9_opening_done');
+// v7セーブデータの自動移行: ib_v7が存在しib_v9がない場合、ib_v9にコピーして移行
+(function migrateFromV7(){
+  const v7=localStorage.getItem('ib_v7');
+  const v9=localStorage.getItem('ib_v9');
+  if(v7 && !v9){
+    localStorage.setItem('ib_v9', v7);
+    localStorage.removeItem('ib_v7');
+    if(localStorage.getItem('ib_v7_opening_done')){
+      localStorage.setItem('ib_v9_opening_done','1');
+      localStorage.removeItem('ib_v7_opening_done');
+    }
+  }
+})();
+let s = JSON.parse(localStorage.getItem('ib_v9')||'null') || {
   level:1, totalInfo:0, depth:0,
   runInfo:0, gauge:50, integrity:0,
   committed:[],
@@ -314,7 +327,7 @@ if(s.wallActive===undefined) s.wallActive=null;
 let _debugForceReady=false;
 let _lastWallAttack=null; // 'hit' | 'miss' | null (壁突破ロールの直近結果。render側で消費)
 
-function save(){ s.lastTs=Date.now(); localStorage.setItem('ib_v7', JSON.stringify(s)); }
+function save(){ s.lastTs=Date.now(); localStorage.setItem('ib_v9', JSON.stringify(s)); }
 let _logQueue=[];
 let _logTyping=false;
 let _logSlowMode=false;
@@ -1180,8 +1193,8 @@ function resetAll(){
     setTimeout(()=>{resetArmed=false;},5000);
     return;
   }
-  localStorage.removeItem('ib_v7');
-  localStorage.removeItem('ib_v7_opening_done');
+  localStorage.removeItem('ib_v9');
+  localStorage.removeItem('ib_v9_opening_done');
   location.reload();
 }
 
@@ -1693,7 +1706,7 @@ function exportObservation(){
     const now=new Date();
     const pad=n=>String(n).padStart(2,'0');
     const fname='lilm_save_'+now.getFullYear()+pad(now.getMonth()+1)+pad(now.getDate())+'_'+pad(now.getHours())+pad(now.getMinutes())+pad(now.getSeconds())+'.json';
-    const blob=new Blob([localStorage.getItem('ib_v7')],{type:'application/json'});
+    const blob=new Blob([localStorage.getItem('ib_v9')],{type:'application/json'});
     const url=URL.createObjectURL(blob);
     const a=document.createElement('a');
     a.href=url; a.download=fname; a.click();
@@ -1912,7 +1925,7 @@ function playOpening(){
   function next(){
     if(step>=seq.length){
       _logSlowMode=false;
-      localStorage.setItem('ib_v7_opening_done','1'); // 表示済みフラグ
+      localStorage.setItem('ib_v9_opening_done','1'); // 表示済みフラグ
       return;
     }
     const item=seq[step++];
@@ -1965,13 +1978,16 @@ function initTitleScreen(){
   // インポートボタン: タイトル画面のクリックイベントに伝播させない
   const importBtn=document.getElementById('titleImportBtn');
   const importInput=document.getElementById('titleImportInput');
+  const importHint=document.getElementById('titleImportHint');
   if(importBtn && importInput){
     importBtn.addEventListener('click', e=>{
       e.stopPropagation();
+      if(importHint) importHint.style.display='block';
       importInput.click();
     });
     importInput.addEventListener('change', e=>{
       e.stopPropagation();
+      if(importHint) importHint.style.display='none';
       const file=e.target.files[0];
       if(!file) return;
       const reader=new FileReader();
@@ -1986,7 +2002,7 @@ function initTitleScreen(){
             importInput.value='';
             return;
           }
-          localStorage.setItem('ib_v7', JSON.stringify(data));
+          localStorage.setItem('ib_v9', JSON.stringify(data));
           location.reload();
         }catch(err){
           alert('ファイルの読み込みに失敗しました: '+err.message);
