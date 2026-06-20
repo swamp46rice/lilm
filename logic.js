@@ -1945,12 +1945,14 @@ function initTitleScreen(){
   const settingsBtn=document.getElementById('titleSettingsBtn');
   if(settingsBtn){
     settingsBtn.addEventListener('click', e=>{
-      e.stopPropagation();
+      e.stopPropagation(); // タイトル画面クリック（startGame）には伝播させない
       showSettings();
     });
   }
-  // キー/クリックで解除
-  function startGame(){
+  // キー/クリックで解除（SETTINGSボタン以外）
+  function startGame(e){
+    // SETTINGSボタンのクリックは無視
+    if(e && e.target && e.target.id==='titleSettingsBtn') return;
     // Safari対策: ユーザー操作(クリック/キー押下)との紐付けを保つため、play()は関数の先頭で即座に呼ぶ
     const audio=document.getElementById('bgmAudio');
     if(audio && bgmAudioOn){
