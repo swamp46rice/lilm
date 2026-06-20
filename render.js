@@ -690,7 +690,7 @@ function buildGraph(scrollToNew){
       const div=document.createElement('div');
       if(s.found.includes(id)){
         const committed=s.committed.includes(id);
-        const isNew=!s.foundConfirmed.includes(id);
+        const isNew=s.newlyUnlocked && s.newlyUnlocked.includes(id);
         let cls='node-pill';
         if(tier>=5 && committed) cls+=' active';
         else if(committed) cls+=' committed';

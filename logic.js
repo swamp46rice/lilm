@@ -280,7 +280,7 @@ let s = JSON.parse(localStorage.getItem('ib_v9')||'null') || {
   inventory:Array(10).fill(null),  // 確定所持アイテム [{itemId, rank}] or null
   runDrops:[],                      // ラン中の一時ドロップ [{itemId, rank}]
   found:['t0_see','t0_hear','t0_speak'],
-  foundConfirmed:['t0_see','t0_hear','t0_speak'],
+  newlyUnlocked:[],  // 今回新規解放されたノードID(NEWマーク表示用、render後クリア)
   wallsCrossedEver:[],
   wallsThisRun:[],
   wallActive:null,
@@ -291,7 +291,8 @@ let s = JSON.parse(localStorage.getItem('ib_v9')||'null') || {
   lastTs:null
 };
 // 旧セーブからの移行
-if(!s.foundConfirmed) s.foundConfirmed=s.found.slice();
+if(!s.newlyUnlocked) s.newlyUnlocked=[];
+if(s.foundConfirmed){ s.found=s.foundConfirmed.slice(); delete s.foundConfirmed; save(); }
 if(!s.wallsThisRun) s.wallsThisRun=[];
 if(s.tireIdxDisplay===undefined) s.tireIdxDisplay=0;
 if(s.bestRunInfo===undefined) s.bestRunInfo=0;
@@ -807,11 +808,12 @@ function handleFailure(type){
     s.gauge=0;
     if(!s.metaUnlocks.mu && s.committed.includes('death')){
       s.metaUnlocks.mu=true;
+      // foundには即時追加(NEWマーク表示・Tier判定のため)
+      if(!s.found.includes('mu')){ s.found.push('mu'); }
       text=MU_TEXT;
-      // テキスト表示完了後に「無とは何か」をfoundに追加
       _logOnComplete=()=>{
-        if(!s.found.includes('mu')){ s.found.push('mu'); }
-        if(!s.foundConfirmed.includes('mu')){ s.foundConfirmed.push('mu'); }
+        // テキスト演出完了後にNEWマークを表示してフォローアップログを出す
+        s.newlyUnlocked.push('mu');
         log('「無とは何か」―― 新たな概念が、静寂の中に現れた。', 'observe');
         _logOnComplete=null;
       };
@@ -821,11 +823,12 @@ function handleFailure(type){
     s.gauge=100;
     if(!s.metaUnlocks.karma && ['mu','resonance_q','memory'].every(id=>s.committed.includes(id))){
       s.metaUnlocks.karma=true;
+      // foundには即時追加(NEWマーク表示・Tier判定のため)
+      if(!s.found.includes('karma')){ s.found.push('karma'); }
       text=KARMA_TEXT;
-      // テキスト表示完了後に「カルマとは何か」をfoundに追加(獲得情報量等の通常条件は見ない)
       _logOnComplete=()=>{
-        if(!s.found.includes('karma')){ s.found.push('karma'); }
-        if(!s.foundConfirmed.includes('karma')){ s.foundConfirmed.push('karma'); }
+        // テキスト演出完了後にNEWマークを表示してフォローアップログを出す
+        s.newlyUnlocked.push('karma');
         log('「カルマとは何か」―― 新たな概念が、拡散の果てに現れた。', 'observe');
         _logOnComplete=null;
       };
@@ -836,7 +839,7 @@ function handleFailure(type){
       ? '位相を跳躍するための深い概念が必要だ。観測点は、新たな探索を進めるために、旅を終わらせた。'
       : TIMEOUT_GENERIC;
   }
-  s.foundConfirmed=s.found.slice();
+  // found追加済みの状態でTierコンプリートを判定する
   checkAllTierCompleteAchievements();
   s.wallsThisRun=[];
   s.wallActive=null;
@@ -868,8 +871,7 @@ function renormalize(){
     const sp=speechFor('renormalize');
     if(sp) showSpeech(sp);
   }
-  // このランで得たもの(NEWの問い)を確定させる
-  s.foundConfirmed=s.found.slice();
+  // このランで得た問いを確定させ、Tierコンプリートを判定する
   checkAllTierCompleteAchievements();
   s.wallsThisRun=[];
   s.wallActive=null;
@@ -1087,7 +1089,7 @@ function depart(){
   s.runStatus='観測中';
   s.runInfo=0; s.gauge=50; s.integrity=Math.min(30, s.depth*2);
   s.runTicks=0;
-  s.found=s.foundConfirmed.slice();
+  s.newlyUnlocked=[];
   s.wallsThisRun=[];
   s.tireIdxDisplay=0;
   s.runDrops=[];
@@ -1261,7 +1263,7 @@ function checkTierCompleteAchievement(tier){
   if(s.inventory[itemId]) return; // 既に所持済み
   const tierIds=NODE_IDS.filter(id=>NODES[id].tier===tier);
   if(tierIds.length===0) return;
-  if(tierIds.every(id=>s.foundConfirmed.includes(id))){
+  if(tierIds.every(id=>s.found.includes(id))){
     grantInstantItem(itemId);
   }
 }
@@ -1578,7 +1580,6 @@ function skipResultSequenceIfActive(){
 
 function debugUnlockAll(){
   s.found=NODE_IDS.slice();
-  s.foundConfirmed=NODE_IDS.slice();
   checkAllTierCompleteAchievements();
   render();
   log('DEBUG: 全ノードを開放した('+NODE_IDS.length+'個)');
