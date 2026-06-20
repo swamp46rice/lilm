@@ -650,7 +650,8 @@ function tickObstacles(){
       return;
     }
     if(o.unlockWall!==null && !s.wallsThisRun.includes(WALLS[o.unlockWall].name)) return;
-    const baseRate=Math.min(0.05, 0.0025*s.runInfo/1000);
+    const rateScale=1+(s.level-1)*(3/99); // level100で4倍、上限到達が後ろにずれる
+    const baseRate=Math.min(0.05, 0.0025*s.runInfo/(1000*rateScale));
     const integrityMod=Math.max(0.5, 1-s.integrity/100);
     let bias=1;
     if(o.side==='entropy' && s.gauge>50) bias=1+(s.gauge-50)/50;
@@ -748,7 +749,7 @@ function tickIntegrity(){
   });
   // 構造属性: 整合率の基礎上昇量に控えめなボーナスを加える(比例+上限0.2でクリップ。基礎上昇量0.2の最大2倍)
   const structuralIntegrityBonus = detectAttr(stats)==='structural' ? Math.min(0.2, stats['構造度']*0.0001) : 0;
-  const delta=(INTEGRITY_BASE_GAIN+intBuffSum+structuralIntegrityBonus)*stabilityFactor - SILENCE_OBSTACLE_PENALTY*silenceCount;
+  const delta=Math.max(0, (INTEGRITY_BASE_GAIN+intBuffSum+structuralIntegrityBonus)*stabilityFactor - SILENCE_OBSTACLE_PENALTY*silenceCount);
   const before=s.integrity;
   s.integrity=clamp01(s.integrity+delta);
   return before<100 && s.integrity>=100;
