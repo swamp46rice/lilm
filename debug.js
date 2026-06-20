@@ -79,14 +79,14 @@ function initDebugMode(){
   if(!ts) return;
   const btn=document.createElement('button');
   btn.id='debugModeBtn';
-  btn.textContent='DEBUG MODE';
-  btn.style.cssText='position:absolute;top:20px;right:24px;font-family:monospace;font-size:10px;color:#f55;opacity:0.6;background:none;border:1px solid #f55;border-radius:4px;padding:3px 8px;cursor:pointer;z-index:101;';
+  btn.textContent='★';
+  btn.style.cssText='position:absolute;top:20px;right:24px;font-family:monospace;font-size:14px;color:#000;opacity:0.5;background:none;border:none;padding:3px 6px;cursor:pointer;z-index:101;';
   btn.addEventListener('click', e=>{
     e.stopPropagation();
     debugMode=!debugMode;
     panel.style.display=debugMode?'block':'none';
-    btn.style.opacity=debugMode?'1':'0.6';
-    btn.textContent=debugMode?'DEBUG ON':'DEBUG MODE';
+    btn.style.opacity=debugMode?'1':'0.5';
+    btn.textContent='★';
   });
 
   // titleScreenのdisplay変化に連動してボタンを表示/非表示
