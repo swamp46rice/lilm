@@ -288,10 +288,12 @@ let s = JSON.parse(localStorage.getItem('ib_v9')||'null') || {
   lastEventText:null,
   lastExportFound:[],
   causClock:0, causAcc:{}, causGaugeStart:50,
-  lastTs:null
+  lastTs:null,
+  charaSeen:{}
 };
 // 旧セーブからの移行
 if(!s.newlyUnlocked) s.newlyUnlocked=[];
+if(!s.charaSeen) s.charaSeen={};
 if(s.foundConfirmed){ s.found=s.foundConfirmed.slice(); delete s.foundConfirmed; save(); }
 if(!s.wallsThisRun) s.wallsThisRun=[];
 if(s.tireIdxDisplay===undefined) s.tireIdxDisplay=0;
@@ -1196,8 +1198,27 @@ function resetAll(){
     setTimeout(()=>{resetArmed=false;},5000);
     return;
   }
+  // charaSeen(AI形態コレクション)はリセット後も保持する
+  const savedCharaSeen=s.charaSeen ? Object.assign({},s.charaSeen) : {};
   localStorage.removeItem('ib_v9');
   localStorage.removeItem('ib_v9_opening_done');
+  // リセット後の新規sにcharaSeenを引き継ぐ
+  const newS=JSON.parse(localStorage.getItem('ib_v9')||'null');
+  if(!newS){
+    // 新規sをlocalStorageに作成してcharaSeenを埋め込む
+    const base={
+      level:1,totalInfo:0,depth:0,runInfo:0,gauge:50,integrity:0,
+      committed:[],runStatus:'停止中',lastFailType:null,runTicks:0,
+      bestRunInfo:0,inventory:Array(38).fill(null),runDrops:[],
+      found:['t0_see','t0_hear','t0_speak'],newlyUnlocked:[],
+      wallsCrossedEver:[],wallsThisRun:[],wallActive:null,
+      activeObstacles:[],lastEventText:null,lastExportFound:[],
+      causClock:0,causAcc:{},causGaugeStart:50,lastTs:null,
+      metaUnlocks:{mu:false,karma:false,infinity:false},
+      charaSeen:savedCharaSeen
+    };
+    localStorage.setItem('ib_v9',JSON.stringify(base));
+  }
   location.reload();
 }
 
