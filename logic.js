@@ -234,7 +234,7 @@ const SINGULARITY_IDS=['sg_structural','sg_resonant','sg_semantic','sg_insight',
 const SINGULARITY_STAT_MAP={sg_structural:'構造度', sg_resonant:'共鳴度', sg_semantic:'意味容量', sg_insight:'洞察力', sg_active:'作用力'};
 const TIER_LABELS=['Tier 0 ― 経験','Tier 1 ― 普遍的問い','Tier 2 ― 中間概念','Tier 3 ― 根源的問い','Tier 4 ― 理論','Tier 5 ― 統合理論','Tier 6 ― 中道概念','Tier 7 ― 超越'];
 const TIER_COLOR=['var(--breath)','var(--rare)','var(--entropy)','var(--coherent)','#c8a0f0','#b5e8a0','#e8c870','#f0e8ff'];
-const TIER_WALL_IDX={1:0,2:1,3:2,4:3,5:4,6:5};
+const TIER_WALL_IDX={1:0,2:1,3:2,4:3,5:4,6:5,7:6};
 
 const STAT_BASE=10, STAT_PER_LEVEL=1, STAT_CAP=65535, LEVEL_CAP=65535;
 const LEVEL_BASE=200, LEVEL_GROWTH=1.01;
