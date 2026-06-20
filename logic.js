@@ -1599,37 +1599,6 @@ function skipResultSequenceIfActive(){
 }
 
 
-function debugUnlockAll(){
-  s.found=NODE_IDS.slice();
-  checkAllTierCompleteAchievements();
-  render();
-  log('DEBUG: 全ノードを開放した('+NODE_IDS.length+'個)');
-}
-function debugWallCharge(){
-  if(s.runStatus!=='観測中'){ log('DEBUG: 観測中のみ使用できます。'); return; }
-  const frontier=s.wallsThisRun.length;
-  if(frontier>=7){ log('DEBUG: すべての位相の壁を突破済みです。'); return; }
-  if(s.wallActive){ log('DEBUG: 既に壁が出現中です。'); return; }
-  const w=WALLS[frontier];
-  const deadline=Math.round(10+10*(s.integrity/100));
-  s.wallActive={frontier, remain:deadline, deadline};
-  render();
-  log('DEBUG: 壁'+(frontier+1)+'(「'+w.name+'」)を出現させました(残り'+deadline+'秒)。');
-}
-function debugWallBreak(){
-  if(s.runStatus!=='観測中'){ log('DEBUG: 観測中のみ使用できます。'); return; }
-  const frontier=s.wallsThisRun.length;
-  if(frontier>=7){ log('DEBUG: すべての位相の壁を突破済みです。'); return; }
-  const w=WALLS[frontier];
-  s.wallsThisRun.push(w.name);
-  s.lastEventText=w.text;
-  log('DEBUG: '+w.text);
-  if(frontier===6 && s.found.includes('kuukan')) s.metaUnlocks.infinity=true;
-  grantPhaseAchievement(frontier);
-  if(frontier===6) checkAttrLimitAchievement();
-  s.wallActive=null;
-  render(); save();
-}
 
 /* ===== Observation Export ===== */
 function buildExportDigest(){
