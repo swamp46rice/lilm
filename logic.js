@@ -234,7 +234,7 @@ const SINGULARITY_IDS=['sg_structural','sg_resonant','sg_semantic','sg_insight',
 const SINGULARITY_STAT_MAP={sg_structural:'構造度', sg_resonant:'共鳴度', sg_semantic:'意味容量', sg_insight:'洞察力', sg_active:'作用力'};
 const TIER_LABELS=['Tier 0 ― 経験','Tier 1 ― 普遍的問い','Tier 2 ― 中間概念','Tier 3 ― 根源的問い','Tier 4 ― 理論','Tier 5 ― 統合理論','Tier 6 ― 中道概念','Tier 7 ― 超越'];
 const TIER_COLOR=['var(--breath)','var(--rare)','var(--entropy)','var(--coherent)','#c8a0f0','#b5e8a0','#e8c870','#f0e8ff'];
-const TIER_WALL_IDX={1:0,2:1,3:2,4:3,5:4,6:5,7:6};
+const TIER_WALL_IDX={1:0,2:1,3:2,4:3,5:4,6:5};
 
 const STAT_BASE=10, STAT_PER_LEVEL=1, STAT_CAP=65535, LEVEL_CAP=65535;
 const LEVEL_BASE=200, LEVEL_GROWTH=1.01;
@@ -1938,6 +1938,7 @@ function initTitleScreen(){
   document.getElementById('titleLogo').src=typeof TITLE_IMG!=='undefined'?TITLE_IMG:'';
   document.getElementById('titlePressStart').src=typeof PRESS_START_IMG!=='undefined'?PRESS_START_IMG:'';
   document.getElementById('titleCopyright').src=typeof COPYRIGHT_IMG!=='undefined'?COPYRIGHT_IMG:'';
+  if(document.getElementById('titleSettingsBtn')) document.getElementById('titleSettingsBtn').src=typeof SETTINGS_IMG!=='undefined'?SETTINGS_IMG:'';
   // tire0をキャラとして表示
   document.getElementById('titleChara').src=TIRE_IMAGES[0];
   // キー/クリックで解除
@@ -1965,6 +1966,14 @@ function initTitleScreen(){
     }, 600);
     document.removeEventListener('keydown', startGame);
     ts.removeEventListener('click', startGame);
+  }
+  // SETTINGSボタン（stopPropagationでstartGame発火を防ぐ）
+  const _settingsBtn=document.getElementById('titleSettingsBtn');
+  if(_settingsBtn){
+    _settingsBtn.addEventListener('click', e=>{
+      e.stopPropagation();
+      showSettings();
+    });
   }
   ts.addEventListener('click', startGame);
   document.addEventListener('keydown', startGame);
@@ -2026,4 +2035,81 @@ function initImportButton(){
     };
     reader.readAsText(file);
   });
+}
+
+/* ===== セッティング画面 ===== */
+function showSettings(){
+  const ov=document.getElementById('settingsOverlay');
+  if(ov) ov.style.display='flex';
+}
+function hideSettings(){
+  const ov=document.getElementById('settingsOverlay');
+  if(ov) ov.style.display='none';
+}
+function showCreditWindow(){
+  const ov=document.getElementById('creditOverlay');
+  if(ov) ov.style.display='flex';
+}
+function hideCreditWindow(e){
+  if(e && e.target!==document.getElementById('creditOverlay')) return;
+  const ov=document.getElementById('creditOverlay');
+  if(ov) ov.style.display='none';
+}
+function initSettings(){
+  const bgmSlider=document.getElementById('settingsBgmSlider');
+  const bgmVal=document.getElementById('settingsBgmVal');
+  if(bgmSlider) bgmSlider.addEventListener('input',()=>{
+    const v=parseInt(bgmSlider.value);
+    if(bgmVal) bgmVal.textContent=v;
+    const vol=v/100;
+    TRACKS.forEach(t=>{ const a=document.getElementById(t.audioId); if(a) a.volume=vol; });
+  });
+  const seSlider=document.getElementById('settingsSeSlider');
+  const seVal=document.getElementById('settingsSeVal');
+  if(seSlider) seSlider.addEventListener('input',()=>{
+    const v=parseInt(seSlider.value);
+    if(seVal) seVal.textContent=v;
+    if(sfxNodes&&sfxNodes.sfxGain) sfxNodes.sfxGain.gain.value=v/100;
+  });
+  const closeBtn=document.getElementById('settingsCloseBtn');
+  if(closeBtn) closeBtn.addEventListener('click',hideSettings);
+  const creditBtn=document.getElementById('settingsCreditBtn');
+  if(creditBtn) creditBtn.addEventListener('click',showCreditWindow);
+  const resetBtn=document.getElementById('settingsResetBtn');
+  if(resetBtn) resetBtn.addEventListener('click',()=>{
+    if(!window.confirm('AI形態コレクションを含む全データを初期化します。よろしいですか？')) return;
+    localStorage.removeItem('ib_v9');
+    alert('初期化しました。ページを再読み込みします。');
+    location.reload();
+  });
+  const importBtn=document.getElementById('settingsImportBtn');
+  const importInput=document.getElementById('settingsImportInput');
+  const importHint=document.getElementById('settingsImportHint');
+  if(importBtn&&importInput){
+    importBtn.addEventListener('click',e=>{
+      e.stopPropagation();
+      if(importHint) importHint.style.display='block';
+      importInput.click();
+    });
+    importInput.addEventListener('change',e=>{
+      if(importHint) importHint.style.display='none';
+      const file=e.target.files[0];
+      if(!file) return;
+      const reader=new FileReader();
+      reader.onload=ev=>{
+        try{
+          const data=JSON.parse(ev.target.result);
+          if(!data||typeof data!=='object'||!data.level){ alert('セーブデータのフォーマットが正しくありません。'); importInput.value=''; return; }
+          if(!window.confirm('現在のセーブデータを上書きします。よろしいですか？')){ importInput.value=''; return; }
+          localStorage.setItem('ib_v9',JSON.stringify(data));
+          Object.assign(s,data);
+          importInput.value='';
+          render(); save();
+          hideSettings();
+          alert('セーブデータを読み込みました。\nPRESS STARTでゲームを開始してください。');
+        }catch(err){ alert('ファイルの読み込みに失敗しました: '+err.message); }
+      };
+      reader.readAsText(file);
+    });
+  }
 }
