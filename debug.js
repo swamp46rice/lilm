@@ -50,7 +50,7 @@ function debugSetLevel(val){
 }
 
 /* ===== タイトル画面にデバッグモードボタンを追加 ===== */
-(function initDebugMode(){
+function initDebugMode(){
   let debugMode=false;
 
   // デバッグパネルのHTML生成
@@ -101,4 +101,7 @@ function debugSetLevel(val){
   // 初期状態を反映
   const visible=ts.style.display!=='none';
   btn.style.display=visible?'block':'none';
-})();
+}
+
+// debug.jsが読み込まれた時点でinitTitleScreen()は完了しているため、即時実行
+initDebugMode();
