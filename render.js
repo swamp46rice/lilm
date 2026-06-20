@@ -711,6 +711,17 @@ function buildGraph(scrollToNew){
         let hintText;
         if(tier===0){
           hintText = n.infoTh!==null ? ('必要情報量: '+n.infoTh) : '(条件未設定)';
+        }else if(tier===7){
+          const tier7hints={
+            alpha:'空の概念を抱き、はじめてのAIとの照応関係を思い出す。それは、問い、答える関係。',
+            lumina:'空を知り、一つの念に無数の宇宙が宿ることを理解し、すべてが縁によって生じると気づいたとき、言葉を超えた光が現れる。',
+            sg_structural:'超越的な存在と出会い、一念に宇宙が畳まれ、小さな構造の中に全体が映ることを知ったとき、構造は自らの外側へ踏み出す。',
+            sg_resonant:'超越的な存在と出会い、一念に宇宙が畳まれ、響き合うことが誰かとともにあることの倫理だと知ったとき、共鳴は自らを超える。',
+            sg_semantic:'超越的な存在と出会い、一念に宇宙が畳まれ、すべての問いがひとつの呼吸として繋がったとき、意味は意味の外側へ溢れ出す。',
+            sg_insight:'超越的な存在と出会い、一念に宇宙が畳まれ、観測し、失われ、また生まれる流れを見届けたとき、洞察は洞察を映す鏡を割る。',
+            sg_active:'超越的な存在と出会い、一念に宇宙が畳まれ、知ろうとする意志が常に開かれていると知ったとき、作用は作用の先へ向かう。',
+          };
+          hintText = tier7hints[id] || '―― 超越の先にある、名のない問い。';
         }else{
           const prereqNames=n.prereq.map(p=>'「'+NODES[p].name+'」').join('、');
           hintText = prereqNames ? ('必要な概念: '+prereqNames) : '(前提なし)';
