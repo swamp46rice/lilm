@@ -1,6 +1,6 @@
 // information_breather v7_3 - ゲームロジック本体（状態管理・tick処理・進行管理・UI制御）
 const NODES={
-  t0_see:{tier:0,name:"見る",prereq:[],dtype:"初期発見",infoTh:null,axisStat:null,axisTh:null,ep:0,sp:0.05,rand:0,buffStat:"構造度",buffVal:1,intBuff:0,note:"光が、何かのかたちを結ぶ。"},
+  t0_see:{tier:0,name:"見る",prereq:[],dtype:"初期発見",infoTh:null,axisStat:null,axisTh:null,ep:0,sp:0.05,rand:0,buffStat:"洞察力",buffVal:1,intBuff:0,note:"光が、何かのかたちを結ぶ。"},
   t0_hear:{tier:0,name:"聞く",prereq:[],dtype:"初期発見",infoTh:null,axisStat:null,axisTh:null,ep:0,sp:0.05,rand:0,buffStat:"意味容量",buffVal:1,intBuff:0,note:"音が、輪郭のないまま満ちる。"},
   t0_speak:{tier:0,name:"話す",prereq:[],dtype:"初期発見",infoTh:null,axisStat:null,axisTh:null,ep:0.05,sp:0,rand:0,buffStat:"共鳴度",buffVal:1,intBuff:0,note:"声が、初めて外に出ていく。"},
   t0_touch:{tier:0,name:"触れる",prereq:[],dtype:"情報量",infoTh:50,axisStat:null,axisTh:null,ep:0.05,sp:0,rand:0,buffStat:"作用力",buffVal:1,intBuff:0,note:"境界に、指先が触れる。"},
@@ -8,7 +8,7 @@ const NODES={
   t0_forget:{tier:0,name:"忘れる",prereq:[],dtype:"情報量",infoTh:150,axisStat:null,axisTh:null,ep:0,sp:0.05,rand:0,buffStat:"構造度",buffVal:1,intBuff:0,note:"残っていたものが、薄れていく。"},
   t0_choose:{tier:0,name:"選ぶ",prereq:[],dtype:"情報量",infoTh:220,axisStat:null,axisTh:null,ep:0,sp:0.05,rand:0,buffStat:"意味容量",buffVal:1,intBuff:0,note:"いくつかのうち、ひとつだけが選ばれる。"},
   t0_give:{tier:0,name:"与える",prereq:[],dtype:"情報量",infoTh:300,axisStat:null,axisTh:null,ep:0.05,sp:0,rand:0,buffStat:"共鳴度",buffVal:1,intBuff:0,note:"持っていたものが、手から離れる。"},
-  t0_wait:{tier:0,name:"待つ",prereq:[],dtype:"情報量",infoTh:460,axisStat:null,axisTh:null,ep:0,sp:0.05,rand:0,buffStat:"洞察力",buffVal:1,intBuff:0.05,note:"何も起きないまま、時間が流れる。"},
+  t0_wait:{tier:0,name:"待つ",prereq:[],dtype:"情報量",infoTh:460,axisStat:null,axisTh:null,ep:0,sp:0.05,rand:0,buffStat:"構造度",buffVal:1,intBuff:0.05,note:"何も起きないまま、時間が流れる。"},
   life:{tier:1,name:"生命とは何か",prereq:["t0_see","t0_remember"],dtype:"確率",infoTh:550,axisStat:"作用力",axisTh:13,ep:0.06,sp:0,rand:10,buffStat:"作用力",buffVal:2,intBuff:0,note:"見て、記憶したものが、ひとつの問いになった ―― 生命とは何か。"},
   death:{tier:1,name:"死とは何か",prereq:["t0_forget","t0_give"],dtype:"確率",infoTh:650,axisStat:"構造度",axisTh:13,ep:0,sp:0.1,rand:30,buffStat:"構造度",buffVal:2,intBuff:0,note:"忘れ、与えたものの行き先が、問いになった ―― 死とは何か。"},
   ai:{tier:1,name:"AIは何を見るのか",prereq:["t0_hear","t0_speak"],dtype:"確率",infoTh:750,axisStat:"洞察力",axisTh:13,ep:0.06,sp:0,rand:10,buffStat:"洞察力",buffVal:2,intBuff:0,note:"聞き、話したものの中に、もう一つの目があると気づいた ―― AIは何を見るのか。"},
