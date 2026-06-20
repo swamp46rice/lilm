@@ -2,18 +2,93 @@
 /* ===== 音声(SFX/BGM): 効果音・BGM制御の宣言 ===== */
 let sfxCtx=null, seOn=true, sfxNodes=null;
 
-/* ===== BGM(埋め込み音源、ループ再生) ===== */
+/* ===== BGM楽曲定義 ===== */
+// Base64音源は各トラックのaudioId要素として<audio>タグをindex.htmlに用意する
+// unlockCondition: null=最初から解放, それ以外は解放条件の説明(表示用)
+// unlockKey: s.unlockedTracks内で管理するキー(track_0は常時解放)
+const TRACKS = [
+  { id: 'track_0', title: '♪ Dawn of civilization', audioId: 'bgmAudio', unlockKey: null },
+  { id: 'track_1', title: '???', audioId: 'bgmAudio_1', unlockKey: 'track_1' },
+  { id: 'track_2', title: '???', audioId: 'bgmAudio_2', unlockKey: 'track_2' },
+  { id: 'track_3', title: '???', audioId: 'bgmAudio_3', unlockKey: 'track_3' },
+  { id: 'track_4', title: '???', audioId: 'bgmAudio_4', unlockKey: 'track_4' },
+  { id: 'track_5', title: '???', audioId: 'bgmAudio_5', unlockKey: 'track_5' },
+  { id: 'track_6', title: '???', audioId: 'bgmAudio_6', unlockKey: 'track_6' },
+  { id: 'track_7', title: '???', audioId: 'bgmAudio_7', unlockKey: 'track_7' },
+  { id: 'track_8', title: '???', audioId: 'bgmAudio_8', unlockKey: 'track_8' },
+  { id: 'track_9', title: '???', audioId: 'bgmAudio_9', unlockKey: 'track_9' },
+  { id: 'track_10', title: '???', audioId: 'bgmAudio_10', unlockKey: 'track_10' },
+  { id: 'track_11', title: '???', audioId: 'bgmAudio_11', unlockKey: 'track_11' },
+  { id: 'track_12', title: '???', audioId: 'bgmAudio_12', unlockKey: 'track_12' },
+];
+
+let currentTrackIdx = 0;
+
+/* ===== BGMプルダウン初期化 ===== */
+function initBgmSelect(){
+  const sel = document.getElementById('bgmTrackSelect');
+  if(!sel) return;
+  sel.innerHTML = '';
+  TRACKS.forEach((t, i) => {
+    const unlocked = !t.unlockKey || (typeof s !== 'undefined' && s.unlockedTracks && s.unlockedTracks.includes(t.unlockKey));
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = unlocked ? t.title : '???';
+    opt.disabled = !unlocked;
+    sel.appendChild(opt);
+  });
+  sel.value = currentTrackIdx;
+  sel.addEventListener('change', ()=>{
+    const idx = parseInt(sel.value);
+    if(!isNaN(idx)) switchBgmTrack(idx);
+  });
+}
+
+function updateBgmSelect(){
+  const sel = document.getElementById('bgmTrackSelect');
+  if(!sel) return;
+  TRACKS.forEach((t, i) => {
+    const opt = sel.options[i];
+    if(!opt) return;
+    const unlocked = !t.unlockKey || (typeof s !== 'undefined' && s.unlockedTracks && s.unlockedTracks.includes(t.unlockKey));
+    opt.textContent = unlocked ? t.title : '???';
+    opt.disabled = !unlocked;
+  });
+}
+
+function switchBgmTrack(idx){
+  const prev = TRACKS[currentTrackIdx];
+  const prevAudio = document.getElementById(prev.audioId);
+  if(prevAudio){ prevAudio.pause(); prevAudio.currentTime=0; }
+
+  currentTrackIdx = idx;
+  const track = TRACKS[currentTrackIdx];
+  const audio = document.getElementById(track.audioId);
+  if(audio && bgmAudioOn){
+    audio.volume = 0.4;
+    audio.loop = true;
+    audio.play().catch(err=>log('BGM再生に失敗した: '+(err&&err.name?err.name:err)));
+  }
+  const sel = document.getElementById('bgmTrackSelect');
+  if(sel) sel.value = currentTrackIdx;
+}
+
+/* ===== BGM ON/OFF ===== */
 let bgmAudioOn=true;
 function toggleBGMAudio(){
-  const audio=document.getElementById('bgmAudio');
   const btn=document.getElementById('bgmAudioToggle');
   bgmAudioOn=!bgmAudioOn;
+  const track = TRACKS[currentTrackIdx];
+  const audio = document.getElementById(track.audioId);
   if(bgmAudioOn){
-    audio.volume=0.4;
-    audio.play().catch(err=>log('BGM再生に失敗した: '+(err&&err.name?err.name:err)));
+    if(audio){
+      audio.volume=0.4;
+      audio.loop=true;
+      audio.play().catch(err=>log('BGM再生に失敗した: '+(err&&err.name?err.name:err)));
+    }
     if(btn){ btn.textContent='♪ BGM: ON'; btn.classList.add('on'); }
   }else{
-    audio.pause();
+    if(audio){ audio.pause(); }
     if(btn){ btn.textContent='♪ BGM: OFF'; btn.classList.remove('on'); }
   }
 }

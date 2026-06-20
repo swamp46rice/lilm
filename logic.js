@@ -289,11 +289,13 @@ let s = JSON.parse(localStorage.getItem('ib_v9')||'null') || {
   lastExportFound:[],
   causClock:0, causAcc:{}, causGaugeStart:50,
   lastTs:null,
-  charaSeen:{}
+  charaSeen:{},
+  unlockedTracks:[]
 };
 // 旧セーブからの移行
 if(!s.newlyUnlocked) s.newlyUnlocked=[];
 if(!s.charaSeen) s.charaSeen={};
+if(!s.unlockedTracks) s.unlockedTracks=[];
 if(s.foundConfirmed){ s.found=s.foundConfirmed.slice(); delete s.foundConfirmed; save(); }
 if(!s.wallsThisRun) s.wallsThisRun=[];
 if(s.tireIdxDisplay===undefined) s.tireIdxDisplay=0;
