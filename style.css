@@ -307,9 +307,41 @@ button[disabled]:hover{background:transparent;}
 @keyframes titleBlink{0%,100%{opacity:1;}50%{opacity:0.12;}}
 #titleCopyright{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);width:260px;opacity:0.65;}
 #titleVersion{position:absolute;bottom:20px;right:24px;font-family:var(--font-mono);font-size:11px;color:#6ab8d8;opacity:0.75;letter-spacing:.08em;}
-#titleImportBtn{position:absolute;bottom:20px;left:24px;font-family:var(--font-mono);font-size:11px;color:#6ab8d8;opacity:0.75;letter-spacing:.08em;background:none;border:1px solid #2a4060;border-radius:4px;padding:4px 10px;cursor:pointer;z-index:101;}
-#titleImportBtn:hover{opacity:1;border-color:#6ab8d8;}
-#titleImportHint{position:absolute;bottom:44px;left:24px;font-family:var(--font-mono);font-size:10px;color:#6ab8d8;opacity:0.85;letter-spacing:.05em;background:rgba(2,6,18,0.85);border:1px solid #2a4060;border-radius:4px;padding:4px 10px;white-space:nowrap;z-index:101;}
+/* SETTINGSボタン (タイトル画面) */
+#titleSettingsBtn{width:120px;margin-top:14px;mix-blend-mode:screen;opacity:0.82;cursor:pointer;transition:opacity .2s,filter .2s;filter:drop-shadow(0 0 6px #30d0f055);}
+#titleSettingsBtn:hover{opacity:1;filter:drop-shadow(0 0 12px #30d0f0aa);}
+
+/* セッティング画面オーバーレイ */
+#settingsOverlay{position:absolute;inset:0;background:rgba(2,6,18,0.88);z-index:200;display:flex;align-items:center;justify-content:center;border-radius:10px;}
+#settingsBox{background:rgba(5,12,30,0.98);border:1px solid #1e3a5a;border-radius:10px;padding:28px 32px 22px;width:400px;max-height:580px;overflow-y:auto;font-family:var(--font-mono);color:#c0ddf0;position:relative;}
+#settingsBox .settings-title{font-size:18px;letter-spacing:.18em;color:#7ee8d0;text-shadow:0 0 12px #7ee8d066;margin-bottom:22px;text-align:center;}
+.settings-section{margin-bottom:18px;}
+.settings-section-label{font-size:10px;letter-spacing:.14em;color:#6ab8d8;opacity:.8;margin-bottom:8px;text-transform:uppercase;}
+.settings-row{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.settings-item-label{font-size:11px;color:#a0c8e0;width:36px;flex-shrink:0;}
+.settings-item-value{font-size:11px;color:#7ee8d0;width:28px;text-align:right;flex-shrink:0;}
+.settings-slider{flex:1;-webkit-appearance:none;height:3px;background:rgba(30,58,90,0.8);border-radius:2px;outline:none;cursor:pointer;}
+.settings-slider::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:#7ee8d0;box-shadow:0 0 6px #7ee8d066;cursor:pointer;}
+.settings-slider::-moz-range-thumb{width:12px;height:12px;border-radius:50%;background:#7ee8d0;border:none;cursor:pointer;}
+.settings-radio-row{gap:16px;}
+.settings-radio-label{font-size:11px;color:#a0c8e0;display:flex;align-items:center;gap:5px;cursor:pointer;}
+.settings-radio-label input[type="radio"]{accent-color:#7ee8d0;cursor:pointer;}
+.settings-select{background:rgba(5,12,30,0.9);border:1px solid #1e3a5a;border-radius:4px;color:#a0c8e0;font-family:var(--font-mono);font-size:11px;padding:4px 8px;cursor:not-allowed;opacity:.6;}
+.settings-separator{border:none;border-top:1px solid #1e3a5a;margin:16px 0;}
+.settings-btn{display:block;width:100%;background:none;border:1px solid #2a4060;border-radius:4px;color:#6ab8d8;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;padding:7px 14px;cursor:pointer;text-align:left;transition:border-color .2s,color .2s;}
+.settings-btn:hover{border-color:#6ab8d8;color:#a0e8f8;}
+.settings-btn-danger{border-color:#5a2030;color:#d88090;}
+.settings-btn-danger:hover{border-color:#e05060;color:#f0a0b0;}
+.settings-close-btn{display:block;margin:18px auto 0;background:none;border:1px solid #2a4060;border-radius:4px;color:#6ab8d8;font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;padding:6px 24px;cursor:pointer;transition:border-color .2s,color .2s;}
+.settings-close-btn:hover{border-color:#7ee8d0;color:#7ee8d0;}
+
+/* クレジット */
+#creditOverlay{position:absolute;inset:0;background:rgba(2,6,18,0.88);z-index:210;display:flex;align-items:center;justify-content:center;border-radius:10px;}
+#creditBox{background:rgba(5,12,30,0.98);border:1px solid #1e3a5a;border-radius:10px;padding:28px 32px 22px;width:360px;font-family:var(--font-mono);color:#c0ddf0;position:relative;}
+.credit-content{margin-top:16px;font-size:11px;line-height:1.8;}
+.credit-content p{margin-bottom:14px;}
+.credit-label{color:#6ab8d8;font-size:10px;letter-spacing:.12em;text-transform:uppercase;}
+.credit-note{color:#7aa0c0;font-size:10px;opacity:.75;margin-top:20px;text-align:center;}
 @keyframes goldPulse{
   0%,100%{color:#f0c040;text-shadow:0 0 6px #f0c04088;opacity:1;}
   50%{color:#ffd700;text-shadow:0 0 14px #ffd700cc;opacity:0.65;}
