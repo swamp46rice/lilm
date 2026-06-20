@@ -696,7 +696,7 @@ function buildGraph(scrollToNew){
         else if(committed) cls+=' committed';
         if(isNew) cls+=' is-new';
         div.innerHTML = n.name + (isNew?'<span class="new-badge">NEW</span>':'');
-        div.title=n.note+(isNew?'\n(未確定 ―― 失敗すると見えなくなる)':'');
+        div.title=n.note;
         div.onclick=()=>toggleCommit(id);
         div.className=cls;
         div.style.borderLeftColor=TIER_COLOR[tier]||'var(--text-dim)';
