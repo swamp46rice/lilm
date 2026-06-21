@@ -694,7 +694,13 @@ function tickDiscovery(){
     if(n.infoTh!==null && s.runInfo<n.infoTh) return;
     if(n.axisStat && stats[n.axisStat]<n.axisTh) return;
     const wall=WALLS[wallIndexFor(id,n.tier)];
+    if(!wall){ console.warn('[tickDiscovery] wall undefined', id, n.tier); return; }
     if(wall.stat!==null && !STAT_KEYS.every(k=>stats[k]>=wall.stat)) return;
+    // dtype:"特殊"ノードは通常確率計算を通さない（個別条件が揃えば即発見）
+    if(n.dtype==='特殊'){
+      s.found.push(id); newly.push(id);
+      return;
+    }
     let prob=Math.min(0.9, Math.max(0.01,0.06-n.tier*0.005) + s.level*0.002);
     prob=Math.max(0,Math.min(1,prob*obs.discMult));
     if(Math.random()<prob){ s.found.push(id); newly.push(id); }
@@ -1684,7 +1690,7 @@ function exportObservation(){
     // ポップアップがブロックされた場合のフォールバック
     const ta=document.getElementById('exportText');
     ta.value=text;
-    document.getElementById('exportPanel').style.display='block';
+    const _ep=document.getElementById('exportPanel'); if(_ep) _ep.style.display='block';
     ta.focus(); ta.select();
     if(navigator.clipboard && navigator.clipboard.writeText){
       navigator.clipboard.writeText(text).then(
@@ -1818,8 +1824,7 @@ function showInventory(){
     else if(i<=23) colMid.appendChild(div);
     else colRight.appendChild(div);
   });
-  document.getElementById('inventoryTotal').textContent=
-    'データボーナス合計: +'+totalBonus+'%';
+  const _invT=document.getElementById('inventoryTotal'); if(_invT) _invT.textContent='データボーナス合計: +'+totalBonus+'%';
   el.classList.add('open');
 
   // 表示し終えたら、確定済みのNEW表示をクリア(未確定のrunDropsはここではクリアしない)
@@ -1886,8 +1891,7 @@ function showCharaCollection(){
     row.appendChild(cells);
     grid.appendChild(row);
   });
-  document.getElementById('charaCollectionTotal').textContent=
-    '観測済み: '+seenCount+' / '+totalCount;
+  const _cct=document.getElementById('charaCollectionTotal'); if(_cct) _cct.textContent='観測済み: '+seenCount+' / '+totalCount;
   el.classList.add('open');
 }
 function hideCharaCollection(e){
