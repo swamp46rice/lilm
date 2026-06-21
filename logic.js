@@ -1304,12 +1304,50 @@ function checkAllTierCompleteAchievements(){
 function dropRankMax(){
   return Math.min(5, Math.floor(s.runInfo/10000));
 }
-function rollDropRank(maxRank, stats){
-  // 作用属性時に高ランク補正
+// ランク抽選の基礎重み。maxRank=5 かつ補正なしなら
+// +0:41.5%, +1:25%, +2:18%, +3:10%, +4:5%, +5:0.5% になる。
+// ただし+5は位相の壁7(縁起面)突破後まで抽選対象に入らない。
+const DROP_RANK_BASE_WEIGHTS=[41.5,25,18,10,5,0.5];
+function rank5Unlocked(){
+  const wall7Name = WALLS[6] ? WALLS[6].name : '縁起面';
+  return !!(
+    (s.metaUnlocks && s.metaUnlocks.infinity) ||
+    (Array.isArray(s.wallsThisRun) && s.wallsThisRun.includes(wall7Name)) ||
+    (Array.isArray(s.wallsCrossedEver) && s.wallsCrossedEver.includes(wall7Name))
+  );
+}
+function dropRankLuck(stats){
+  // 取得情報量が増えるほど、高ランク側の重みを少しずつ押し上げる。
+  // +5が初めて抽選範囲に入る runInfo=50000 までは補正なし。
+  // runInfo=200000 で luck=1.0、以後最大1.5まで。
+  const infoLuck=Math.min(1.5, Math.max(0, (s.runInfo-50000)/150000));
+
+  // 作用属性は従来通り、高ランク抽選に追加補正。
   const attr=detectAttr(stats);
-  const activeBias = attr==='active' ? stats['作用力']*0.003 : 0;
-  const raw=Math.random()*(maxRank+activeBias);
-  return Math.min(maxRank, Math.floor(raw));
+  const activeLuck = attr==='active' ? Math.min(1.0, (stats['作用力']||0)/1000) : 0;
+
+  return infoLuck + activeLuck;
+}
+function rollDropRank(maxRank, stats){
+  maxRank=Math.max(0, Math.min(5, Math.floor(maxRank||0)));
+  if(!rank5Unlocked()) maxRank=Math.min(maxRank,4);
+  const luck=dropRankLuck(stats);
+  const highRankMultiplier=1 + luck*0.45;
+
+  const weights=[];
+  for(let r=0;r<=maxRank;r++){
+    const base=DROP_RANK_BASE_WEIGHTS[r] || 1;
+    // rが大きいほど補正が強く乗る。+0は常に基礎重みのまま。
+    weights.push(base*Math.pow(highRankMultiplier, r));
+  }
+
+  const total=weights.reduce((a,b)=>a+b,0);
+  let roll=Math.random()*total;
+  for(let r=0;r<weights.length;r++){
+    roll-=weights[r];
+    if(roll<0) return r;
+  }
+  return maxRank;
 }
 function grantDrop(itemId, rank){
   // 表示角度をこの時点で完全ランダムに決定(以後、他のドロップが増減しても位置は変わらない)。
