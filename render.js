@@ -828,7 +828,7 @@ function render(){
   const gl=document.getElementById('gaugeLabel');
   gl.textContent=zone.label; gl.style.color=zone.color;
   document.getElementById('lv').textContent=s.level;
-  document.getElementById('totalInfo').textContent= (s.inventory&&s.inventory[37])?'∞':Math.floor(s.totalInfo);
+  document.getElementById('totalInfo').textContent= s.metaUnlocks.infinity?'∞':Math.floor(s.totalInfo);
   document.getElementById('bestRunInfo').textContent= Math.floor(s.bestRunInfo);
   document.getElementById('depth').textContent=s.depth;
   document.getElementById('runStatusLabel').textContent=s.runStatus;
@@ -1008,7 +1008,6 @@ offlineCatchup();
 render(); save(); // 起動直後のcharaSeen等をlocalStorageに確実に保存
 initTitleScreen();
 initImportButton();
-initSettings();
 initBgmSelect();
 // 波形アニメーション(rAF)
 (function waveLoop(){

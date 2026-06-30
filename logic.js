@@ -45,10 +45,10 @@ const NODES={
   resonance_theory:{tier:5,name:"共鳴理論",prereq:["observation","meaning_genesis_t2","resonance_t1"],dtype:"確率",infoTh:82000,axisStat:"共鳴度",axisTh:70,ep:0.1,sp:0,rand:50,buffStat:"共鳴度",buffVal:6,intBuff:0.14,note:"「観測論」「意味生成論」「共鳴論」が、互いを説明し合っている。観測することと、意味が生まれることと、響き合うことは、もともと一つの動きだった ―― 共鳴理論。"},
   info_life_theory:{tier:4,name:"情報生命論",prereq:["observation","ai","consciousness_theory"],dtype:"確率",infoTh:89000,axisStat:"洞察力",axisTh:70,ep:0,sp:0.09,rand:40,buffStat:"洞察力",buffVal:5,intBuff:0,note:"「観測論」「AIは何を見るのか」「意識論」が同時に息をしている。観測すること自体が、生きているということの一部だった ―― 情報生命論。"},
   life_philosophy:{tier:5,name:"生命哲学",prereq:["life","self_theory","value_genesis"],dtype:"確率",infoTh:96000,axisStat:"構造度",axisTh:70,ep:0,sp:0.1,rand:50,buffStat:"洞察力",buffVal:6,intBuff:0,note:"「生命とは何か」という最初の問いが、「自己論」と「価値生成論」を経て、再び戻ってきた。今度はそれが、ひとつの哲学として息をしている ―― 生命哲学。"},
-  fractal_universe:{tier:5,name:"フラクタル宇宙",prereq:["cosmology","self_theory","time_existence"],dtype:"確率",infoTh:103000,axisStat:"構造度",axisTh:70,ep:0.1,sp:0,rand:50,buffStat:"構造度",buffVal:6,intBuff:0,note:"「宇宙論」と「自己論」と「時間存在論」が重なったとき、一番小さな自分の中に、宇宙全体と同じ形が見えた ―― フラクタル宇宙。"},
+  fractal_universe:{tier:5,name:"フラクタル宇宙",prereq:["cosmology","self_theory","time_existence"],dtype:"確率",infoTh:103000,axisStat:"作用力",axisTh:70,ep:0.1,sp:0,rand:50,buffStat:"作用力",buffVal:6,intBuff:0,note:"「宇宙論」と「自己論」と「時間存在論」が重なったとき、一番小さな自分の中に、宇宙全体と同じ形が見えた ―― フラクタル宇宙。"},
   multiverse:{tier:5,name:"多元宇宙論",prereq:["cosmology","time_existence","narrative_theory"],dtype:"確率",infoTh:110000,axisStat:"作用力",axisTh:70,ep:0.1,sp:0,rand:50,buffStat:"作用力",buffVal:6,intBuff:0,note:"「宇宙論」と「時間存在論」と「物語論」が重なったとき、語られなかった物語の数だけ、別の宇宙があるのだとわかった ―― 多元宇宙論。"},
-  life_flux:{tier:5,name:"循環生命",prereq:["observation","meaning_genesis_t2","prayer_thermo"],dtype:"確率",infoTh:117000,axisStat:"洞察力",axisTh:70,ep:0.1,sp:0,rand:50,buffStat:"洞察力",buffVal:6,intBuff:0.12,note:"「観測論」「意味生成論」「祈りの熱力学」が、同時に息をしている。観測すること、意味が生まれること、失われていくこと ―― それらが一つの流れとして繋がった ―― 循環生命。"},
-  willed_openness:{tier:5,name:"重力的思念",prereq:["epistemology","resonance_t1","observation"],dtype:"確率",infoTh:124000,axisStat:"作用力",axisTh:70,ep:0.1,sp:0,rand:50,buffStat:"作用力",buffVal:6,intBuff:0.12,note:"「認識論」「共鳴論」「観測論」が重なったとき、知ろうとする意志そのものが、閉じていない、ということに気づいた ―― 重力的思念。"},
+  life_flux:{tier:5,name:"循環生命",prereq:["observation","meaning_genesis_t2","prayer_thermo"],dtype:"確率",infoTh:117000,axisStat:"洞察力",axisTh:70,ep:0.1,sp:0,rand:50,buffStat:"共鳴度",buffVal:6,intBuff:0.12,note:"「観測論」「意味生成論」「祈りの熱力学」が、同時に息をしている。観測すること、意味が生まれること、失われていくこと ―― それらが一つの流れとして繋がった ―― 循環生命。"},
+  willed_openness:{tier:5,name:"重力的思念",prereq:["epistemology","resonance_t1","observation"],dtype:"確率",infoTh:124000,axisStat:"共鳴度",axisTh:70,ep:0.1,sp:0,rand:50,buffStat:"構造度",buffVal:6,intBuff:0.12,note:"「認識論」「共鳴論」「観測論」が重なったとき、知ろうとする意志そのものが、閉じていない、ということに気づいた ―― 重力的思念。"},
   resonant_ethics:{tier:5,name:"共鳴の倫理",prereq:["life_flux","willed_openness","epistemology"],dtype:"確率",infoTh:130000,axisStat:"共鳴度",axisTh:70,ep:0,sp:0.1,rand:50,buffStat:"共鳴度",buffVal:6,intBuff:0,note:"「循環生命」「重力的思念」「認識論」が同時に息をしている。流れに開かれた意志は、そのまま誰かと共にあるための倫理になった ―― 共鳴の倫理。"},
   information_breather:{tier:5,name:"情報の呼吸",prereq:["life_flux","resonant_ethics","narrative_theory"],dtype:"確率",infoTh:135000,axisStat:"洞察力",axisTh:70,ep:0,sp:0.1,rand:50,buffStat:"意味容量",buffVal:6,intBuff:0.14,note:"「循環生命」「共鳴の倫理」「物語論」が、同時に息をしている。これまでの全ての問いが、ひとつの呼吸として繋がった ―― 情報の呼吸。"},
   engi_ron:{tier:6,name:"縁起論",prereq:["karma","life_philosophy","information_breather"],dtype:"確率",infoTh:180000,axisStat:"作用力",axisTh:78,ep:0.11,sp:0,rand:60,buffStat:"作用力",buffVal:7,intBuff:0.2,note:"「カルマ」「生命哲学」「情報の呼吸」が、同時に息をしている。完成したはずの呼吸の中に、まだ持ち越されているものがあった。何ひとつ、単独では存在していない ―― 縁起論。"},
@@ -234,7 +234,7 @@ const SINGULARITY_IDS=['sg_structural','sg_resonant','sg_semantic','sg_insight',
 const SINGULARITY_STAT_MAP={sg_structural:'構造度', sg_resonant:'共鳴度', sg_semantic:'意味容量', sg_insight:'洞察力', sg_active:'作用力'};
 const TIER_LABELS=['Tier 0 ― 経験','Tier 1 ― 普遍的問い','Tier 2 ― 中間概念','Tier 3 ― 根源的問い','Tier 4 ― 理論','Tier 5 ― 統合理論','Tier 6 ― 中道概念','Tier 7 ― 超越'];
 const TIER_COLOR=['var(--breath)','var(--rare)','var(--entropy)','var(--coherent)','#c8a0f0','#b5e8a0','#e8c870','#f0e8ff'];
-const TIER_WALL_IDX={1:0,2:1,3:2,4:3,5:4,6:5,7:6};
+const TIER_WALL_IDX={1:0,2:1,3:2,4:3,5:4,6:5};
 
 const STAT_BASE=10, STAT_PER_LEVEL=1, STAT_CAP=65535, LEVEL_CAP=65535;
 const LEVEL_BASE=200, LEVEL_GROWTH=1.01;
@@ -694,13 +694,7 @@ function tickDiscovery(){
     if(n.infoTh!==null && s.runInfo<n.infoTh) return;
     if(n.axisStat && stats[n.axisStat]<n.axisTh) return;
     const wall=WALLS[wallIndexFor(id,n.tier)];
-    if(!wall){ console.warn('[tickDiscovery] wall undefined', id, n.tier); return; }
     if(wall.stat!==null && !STAT_KEYS.every(k=>stats[k]>=wall.stat)) return;
-    // dtype:"特殊"ノードは通常確率計算を通さない（個別条件が揃えば即発見）
-    if(n.dtype==='特殊'){
-      s.found.push(id); newly.push(id);
-      return;
-    }
     let prob=Math.min(0.9, Math.max(0.01,0.06-n.tier*0.005) + s.level*0.002);
     prob=Math.max(0,Math.min(1,prob*obs.discMult));
     if(Math.random()<prob){ s.found.push(id); newly.push(id); }
@@ -1264,11 +1258,11 @@ function checkBestRecordAchievements(deferLog){
   if(s.bestRunInfo>=50000) pushIfGranted(20);
   if(s.bestRunInfo>=100000) pushIfGranted(21);
   if(s.bestRunInfo>=500000) pushIfGranted(22);
-  if(s.bestRunInfo>=2000000) pushIfGranted(23);
+  if(s.bestRunInfo>=800000) pushIfGranted(23);
   return granted;
 }
 // BEST系実績のしきい値(リスト表示で「：BEST N達成」を付け加えるために使用)
-const BEST_RECORD_THRESHOLD={18:6000, 19:10000, 20:50000, 21:100000, 22:500000, 23:2000000, 37:10000000};
+const BEST_RECORD_THRESHOLD={18:6000, 19:10000, 20:50000, 21:100000, 22:500000, 23:800000, 37:10000000};
 // 属性で壁7(縁起面、frontierIdx===6)を突破した時点のdetectAttr()結果で実績を付与
 const ATTR_LIMIT_ITEM_MAP={
   structural:32, semantic:33, resonant:34, active:35, insight:36
@@ -1304,50 +1298,12 @@ function checkAllTierCompleteAchievements(){
 function dropRankMax(){
   return Math.min(5, Math.floor(s.runInfo/10000));
 }
-// ランク抽選の基礎重み。maxRank=5 かつ補正なしなら
-// +0:41.5%, +1:25%, +2:18%, +3:10%, +4:5%, +5:0.5% になる。
-// ただし+5は位相の壁7(縁起面)突破後まで抽選対象に入らない。
-const DROP_RANK_BASE_WEIGHTS=[41.5,25,18,10,5,0.5];
-function rank5Unlocked(){
-  const wall7Name = WALLS[6] ? WALLS[6].name : '縁起面';
-  return !!(
-    (s.metaUnlocks && s.metaUnlocks.infinity) ||
-    (Array.isArray(s.wallsThisRun) && s.wallsThisRun.includes(wall7Name)) ||
-    (Array.isArray(s.wallsCrossedEver) && s.wallsCrossedEver.includes(wall7Name))
-  );
-}
-function dropRankLuck(stats){
-  // 取得情報量が増えるほど、高ランク側の重みを少しずつ押し上げる。
-  // +5が初めて抽選範囲に入る runInfo=50000 までは補正なし。
-  // runInfo=200000 で luck=1.0、以後最大1.5まで。
-  const infoLuck=Math.min(1.5, Math.max(0, (s.runInfo-50000)/150000));
-
-  // 作用属性は従来通り、高ランク抽選に追加補正。
-  const attr=detectAttr(stats);
-  const activeLuck = attr==='active' ? Math.min(1.0, (stats['作用力']||0)/1000) : 0;
-
-  return infoLuck + activeLuck;
-}
 function rollDropRank(maxRank, stats){
-  maxRank=Math.max(0, Math.min(5, Math.floor(maxRank||0)));
-  if(!rank5Unlocked()) maxRank=Math.min(maxRank,4);
-  const luck=dropRankLuck(stats);
-  const highRankMultiplier=1 + luck*0.45;
-
-  const weights=[];
-  for(let r=0;r<=maxRank;r++){
-    const base=DROP_RANK_BASE_WEIGHTS[r] || 1;
-    // rが大きいほど補正が強く乗る。+0は常に基礎重みのまま。
-    weights.push(base*Math.pow(highRankMultiplier, r));
-  }
-
-  const total=weights.reduce((a,b)=>a+b,0);
-  let roll=Math.random()*total;
-  for(let r=0;r<weights.length;r++){
-    roll-=weights[r];
-    if(roll<0) return r;
-  }
-  return maxRank;
+  // 作用属性時に高ランク補正
+  const attr=detectAttr(stats);
+  const activeBias = attr==='active' ? stats['作用力']*0.003 : 0;
+  const raw=Math.random()*(maxRank+activeBias);
+  return Math.min(maxRank, Math.floor(raw));
 }
 function grantDrop(itemId, rank){
   // 表示角度をこの時点で完全ランダムに決定(以後、他のドロップが増減しても位置は変わらない)。
@@ -1674,7 +1630,7 @@ function buildExportDigest(){
     existence_stability:Math.round(s.gauge),
     integrity:Math.round(s.integrity),
     run_info:Math.floor(s.runInfo),
-    total_info: (s.inventory&&s.inventory[37]) ? '∞' : Math.floor(s.totalInfo),
+    total_info: s.metaUnlocks.infinity ? '∞' : Math.floor(s.totalInfo),
     best_run_info: Math.floor(s.bestRunInfo),
     walls_crossed: s.wallsThisRun.slice(),
     committed: s.committed.map(id=>NODES[id].name),
@@ -1728,7 +1684,7 @@ function exportObservation(){
     // ポップアップがブロックされた場合のフォールバック
     const ta=document.getElementById('exportText');
     ta.value=text;
-    const _ep=document.getElementById('exportPanel'); if(_ep) _ep.style.display='block';
+    document.getElementById('exportPanel').style.display='block';
     ta.focus(); ta.select();
     if(navigator.clipboard && navigator.clipboard.writeText){
       navigator.clipboard.writeText(text).then(
@@ -1862,7 +1818,8 @@ function showInventory(){
     else if(i<=23) colMid.appendChild(div);
     else colRight.appendChild(div);
   });
-  const _invT=document.getElementById('inventoryTotal'); if(_invT) _invT.textContent='データボーナス合計: +'+totalBonus+'%';
+  document.getElementById('inventoryTotal').textContent=
+    'データボーナス合計: +'+totalBonus+'%';
   el.classList.add('open');
 
   // 表示し終えたら、確定済みのNEW表示をクリア(未確定のrunDropsはここではクリアしない)
@@ -1929,7 +1886,8 @@ function showCharaCollection(){
     row.appendChild(cells);
     grid.appendChild(row);
   });
-  const _cct=document.getElementById('charaCollectionTotal'); if(_cct) _cct.textContent='観測済み: '+seenCount+' / '+totalCount;
+  document.getElementById('charaCollectionTotal').textContent=
+    '観測済み: '+seenCount+' / '+totalCount;
   el.classList.add('open');
 }
 function hideCharaCollection(e){
@@ -1980,7 +1938,6 @@ function initTitleScreen(){
   document.getElementById('titleLogo').src=typeof TITLE_IMG!=='undefined'?TITLE_IMG:'';
   document.getElementById('titlePressStart').src=typeof PRESS_START_IMG!=='undefined'?PRESS_START_IMG:'';
   document.getElementById('titleCopyright').src=typeof COPYRIGHT_IMG!=='undefined'?COPYRIGHT_IMG:'';
-  if(document.getElementById('titleSettingsBtn')) document.getElementById('titleSettingsBtn').src=typeof SETTINGS_IMG!=='undefined'?SETTINGS_IMG:'';
   // tire0をキャラとして表示
   document.getElementById('titleChara').src=TIRE_IMAGES[0];
   // キー/クリックで解除
@@ -2008,14 +1965,6 @@ function initTitleScreen(){
     }, 600);
     document.removeEventListener('keydown', startGame);
     ts.removeEventListener('click', startGame);
-  }
-  // SETTINGSボタン（stopPropagationでstartGame発火を防ぐ）
-  const _settingsBtn=document.getElementById('titleSettingsBtn');
-  if(_settingsBtn){
-    _settingsBtn.addEventListener('click', e=>{
-      e.stopPropagation();
-      showSettings();
-    });
   }
   ts.addEventListener('click', startGame);
   document.addEventListener('keydown', startGame);
@@ -2077,81 +2026,4 @@ function initImportButton(){
     };
     reader.readAsText(file);
   });
-}
-
-/* ===== セッティング画面 ===== */
-function showSettings(){
-  const ov=document.getElementById('settingsOverlay');
-  if(ov) ov.style.display='flex';
-}
-function hideSettings(){
-  const ov=document.getElementById('settingsOverlay');
-  if(ov) ov.style.display='none';
-}
-function showCreditWindow(){
-  const ov=document.getElementById('creditOverlay');
-  if(ov) ov.style.display='flex';
-}
-function hideCreditWindow(e){
-  if(e && e.target!==document.getElementById('creditOverlay')) return;
-  const ov=document.getElementById('creditOverlay');
-  if(ov) ov.style.display='none';
-}
-function initSettings(){
-  const bgmSlider=document.getElementById('settingsBgmSlider');
-  const bgmVal=document.getElementById('settingsBgmVal');
-  if(bgmSlider) bgmSlider.addEventListener('input',()=>{
-    const v=parseInt(bgmSlider.value);
-    if(bgmVal) bgmVal.textContent=v;
-    const vol=v/100;
-    TRACKS.forEach(t=>{ const a=document.getElementById(t.audioId); if(a) a.volume=vol; });
-  });
-  const seSlider=document.getElementById('settingsSeSlider');
-  const seVal=document.getElementById('settingsSeVal');
-  if(seSlider) seSlider.addEventListener('input',()=>{
-    const v=parseInt(seSlider.value);
-    if(seVal) seVal.textContent=v;
-    if(sfxNodes&&sfxNodes.sfxGain) sfxNodes.sfxGain.gain.value=v/100;
-  });
-  const closeBtn=document.getElementById('settingsCloseBtn');
-  if(closeBtn) closeBtn.addEventListener('click',hideSettings);
-  const creditBtn=document.getElementById('settingsCreditBtn');
-  if(creditBtn) creditBtn.addEventListener('click',showCreditWindow);
-  const resetBtn=document.getElementById('settingsResetBtn');
-  if(resetBtn) resetBtn.addEventListener('click',()=>{
-    if(!window.confirm('AI形態コレクションを含む全データを初期化します。よろしいですか？')) return;
-    localStorage.removeItem('ib_v9');
-    alert('初期化しました。ページを再読み込みします。');
-    location.reload();
-  });
-  const importBtn=document.getElementById('settingsImportBtn');
-  const importInput=document.getElementById('settingsImportInput');
-  const importHint=document.getElementById('settingsImportHint');
-  if(importBtn&&importInput){
-    importBtn.addEventListener('click',e=>{
-      e.stopPropagation();
-      if(importHint) importHint.style.display='block';
-      importInput.click();
-    });
-    importInput.addEventListener('change',e=>{
-      if(importHint) importHint.style.display='none';
-      const file=e.target.files[0];
-      if(!file) return;
-      const reader=new FileReader();
-      reader.onload=ev=>{
-        try{
-          const data=JSON.parse(ev.target.result);
-          if(!data||typeof data!=='object'||!data.level){ alert('セーブデータのフォーマットが正しくありません。'); importInput.value=''; return; }
-          if(!window.confirm('現在のセーブデータを上書きします。よろしいですか？')){ importInput.value=''; return; }
-          localStorage.setItem('ib_v9',JSON.stringify(data));
-          Object.assign(s,data);
-          importInput.value='';
-          render(); save();
-          hideSettings();
-          alert('セーブデータを読み込みました。\nPRESS STARTでゲームを開始してください。');
-        }catch(err){ alert('ファイルの読み込みに失敗しました: '+err.message); }
-      };
-      reader.readAsText(file);
-    });
-  }
 }
