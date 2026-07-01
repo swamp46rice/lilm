@@ -329,6 +329,14 @@ STAT_KEYS.forEach(k=>{
   }
 });
 if(s.wallActive===undefined) s.wallActive=null;
+// マイグレーション: ノードのリネーム・削除等でNODESに存在しないIDがcommitted/foundに
+// 残っていると computeStats() 等で NODES[id] が undefined になり例外が発生するため除去する
+if(typeof NODES!=='undefined'){
+  const _validCommitted=s.committed.filter(id=>NODES[id]);
+  if(_validCommitted.length!==s.committed.length) s.committed=_validCommitted;
+  const _validFound=s.found.filter(id=>NODES[id]);
+  if(_validFound.length!==s.found.length) s.found=_validFound;
+}
 let _debugForceReady=false;
 let _lastWallAttack=null; // 'hit' | 'miss' | null (壁突破ロールの直近結果。render側で消費)
 
